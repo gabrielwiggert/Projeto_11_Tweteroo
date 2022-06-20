@@ -30,7 +30,11 @@ app.post('/tweets', (req, res) => {
   });
 
 app.get("/tweets", (req, res) => {
-    res.send(tweets);
+    let lastTenTweets = [];
+    for (let i = 0; i < 10 && tweets.length - i > 0; i++) {
+        lastTenTweets.push(tweets[(tweets.length - 1) - i]);
+    }
+    res.send(lastTenTweets);
 });
 
 app.listen(5000);
