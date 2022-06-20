@@ -5,22 +5,32 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const pessoas = [];
+let users = [];
+let tweets = [];
 
-app.post('/pessoas', (req, res) => {
-  const pessoa = req.body;
-  pessoas.push(pessoa);
-  res.send(pessoa);
+app.post('/sign-up', (req, res) => {
+  let user = req.body;
+  users.push(user);
+  res.send("OK");
 });
 
-app.get("/forecast", (req, res) => {
-    res.send(weather);
-});
+app.post('/tweets', (req, res) => {
+    let response = req.body;
+    let username = response.username;
+    let tweet = response.tweet;
+    let correspondingUser = users.find(user => user.username === response.username);
+    let avatar = correspondingUser.avatar;
+    let fullTweet = {
+        username,
+		avatar,
+	    tweet
+    }
+    tweets.push(fullTweet);
+    res.send("OK");
+  });
 
-app.get("/forecast/:day", (req, res) => {
-    const id = parseInt(req.params.day);
-    const dia = weather.find(item => item.day === id);
-    res.send(dia);
+app.get("/tweets", (req, res) => {
+    res.send(tweets);
 });
 
 app.listen(5000);
